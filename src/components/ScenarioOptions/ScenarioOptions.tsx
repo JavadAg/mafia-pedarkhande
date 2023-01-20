@@ -1,17 +1,14 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import {
   Box,
   Button,
   ButtonGroup,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Chip,
   IconButton,
-  FormGroup,
-  Typography
+  FormGroup
 } from '@mui/material'
-import { RiAddCircleLine, RiIndeterminateCircleLine } from 'react-icons/ri'
+import { RiAddCircleLine } from 'react-icons/ri'
 import {
   mixedRoles,
   godfatherRoles,
@@ -19,7 +16,7 @@ import {
   ScenarioRoles
 } from '../../data/roles'
 import _ from 'lodash'
-import { arrayDupCount } from '../../utils/arrayDupCount'
+import Role from './Role'
 
 const ScenarioOptions = ({
   scenario,
@@ -28,7 +25,9 @@ const ScenarioOptions = ({
   setNames,
   playersLength,
   setPlayerLength,
-  setStart
+  setIsReady,
+  roles,
+  setRoles
 }: {
   scenario: ScenarioRoles[]
   setScenario: Dispatch<SetStateAction<ScenarioRoles[]>>
@@ -36,18 +35,53 @@ const ScenarioOptions = ({
   setNames: Dispatch<SetStateAction<string[]>>
   playersLength: number
   setPlayerLength: Dispatch<SetStateAction<number>>
-  setStart: Dispatch<SetStateAction<boolean>>
+  setIsReady: Dispatch<SetStateAction<boolean>>
+  roles: ScenarioRoles[]
+  setRoles: Dispatch<SetStateAction<ScenarioRoles[]>>
 }) => {
   const [pageNumber, setPageNumber] = useState(1)
   const [name, setName] = useState('')
+  const [existList, setExistList] = useState([])
+  const [scenarioName, setScenarioName] = useState('')
+
+  const handleStart = () => {
+    if (scenario.length === mafiaRoles.length) {
+      localStorage.setItem('mafiaRoles', JSON.stringify(roles))
+    } else if (scenario.length === godfatherRoles.length) {
+      localStorage.setItem('godfatherRoles', JSON.stringify(roles))
+    } else {
+      localStorage.setItem('mixedRoles', JSON.stringify(roles))
+    }
+    setIsReady(true)
+  }
+  const handleCheckLocal = () => {
+    if (scenarioName === 'مافیا') {
+      const localArray = localStorage.getItem('mafiaRoles')
+      if (localArray) {
+        const parsedArray = JSON.parse(localArray)
+        console.log(scenario)
+        const intersection = scenario.filter((element) =>
+          parsedArray.includes(element)
+        )
+        console.log(intersection)
+      }
+    } else if (scenario.length === godfatherRoles.length) {
+      localStorage.setItem('godfatherRoles', JSON.stringify(roles))
+    } else {
+      localStorage.setItem('mixedRoles', JSON.stringify(roles))
+    }
+  }
+
+  useEffect(() => {
+    handleCheckLocal()
+  }, [pageNumber])
 
   const page = () => {
     if (pageNumber === 1) {
       return (
         <Box>
           <ButtonGroup
-            color='primary'
-            size='medium'
+            size='large'
             variant='contained'
             orientation='vertical'
             sx={{
@@ -56,33 +90,55 @@ const ScenarioOptions = ({
               justifyContent: 'center',
               alignItems: 'center',
               mt: '2rem',
-              padding: '1rem'
+              padding: '1rem',
+              boxShadow: 'none'
             }}
           >
             <Button
-              onClick={() => {
+              onClick={(e) => {
                 setScenario(mafiaRoles)
+                setRoles(mafiaRoles)
                 setPageNumber((current) => current + 1)
+                setScenarioName(e.currentTarget.innerText)
               }}
-              sx={{ width: '10rem' }}
+              sx={{
+                width: '10rem',
+                fontSize: '1.5rem',
+                color: (theme) => theme.palette.grey[100],
+                backgroundColor: (theme) => theme.palette.grey[900]
+              }}
             >
               مافیا
             </Button>
             <Button
-              onClick={() => {
+              onClick={(e) => {
                 setScenario(godfatherRoles)
+                setRoles(godfatherRoles)
                 setPageNumber((current) => current + 1)
+                setScenarioName(e.currentTarget.innerText)
               }}
-              sx={{ width: '10rem' }}
+              sx={{
+                width: '10rem',
+                fontSize: '1.5rem',
+                color: (theme) => theme.palette.grey[100],
+                backgroundColor: (theme) => theme.palette.grey[900]
+              }}
             >
               پدرخوانده
             </Button>
             <Button
-              onClick={() => {
+              onClick={(e) => {
                 setScenario(mixedRoles)
+                setRoles(mixedRoles)
                 setPageNumber((current) => current + 1)
+                setScenarioName(e.currentTarget.innerText)
               }}
-              sx={{ width: '10rem' }}
+              sx={{
+                width: '10rem',
+                fontSize: '1.5rem',
+                color: (theme) => theme.palette.grey[100],
+                backgroundColor: (theme) => theme.palette.grey[900]
+              }}
             >
               ترکیبی پررو
             </Button>
@@ -133,78 +189,47 @@ const ScenarioOptions = ({
           >
             <RiAddCircleLine />
           </IconButton>
-          <Box
-            width='100%'
-            sx={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}
-          >
-            {names.map((mappedName, index) => (
-              <Chip
-                key={index}
-                label={mappedName}
-                onDelete={() => {
-                  setNames(names.filter((name) => name != mappedName))
-                  localStorage.setItem(
-                    'names',
-                    JSON.stringify(names.filter((name) => name != mappedName))
-                  )
-                }}
-              />
-            ))}
-          </Box>
+          {names.length > 0 && (
+            <Box
+              width='100%'
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                padding: '1rem',
+                borderRadius: '1rem',
+                backgroundColor: (theme) => theme.palette.grey[900]
+              }}
+            >
+              {names.map((mappedName, index) => (
+                <Chip
+                  key={index}
+                  label={mappedName}
+                  onDelete={() => {
+                    setNames(names.filter((name) => name != mappedName))
+                    localStorage.setItem(
+                      'names',
+                      JSON.stringify(names.filter((name) => name != mappedName))
+                    )
+                  }}
+                />
+              ))}
+            </Box>
+          )}
+
           <Box
             width='100%'
             sx={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}
           >
             <FormGroup>
               {scenario.map((role) => {
-                const count = arrayDupCount(scenario, role)
-                console.log(arrayDupCount(scenario, role))
                 return (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      gap: '2rem'
-                    }}
-                  >
-                    <FormControlLabel
-                      control={<Checkbox defaultChecked />}
-                      label={role.name}
-                    />
-                    {count > 1 && (
-                      <>
-                        <Typography>{count}</Typography>
-                        {role.multiple && (
-                          <IconButton
-                            disabled={scenario.length == playersLength}
-                            onClick={() => {
-                              setScenario(
-                                scenario.filter((f) => f.name != role.name)
-                              )
-                            }}
-                            color='primary'
-                          >
-                            <RiIndeterminateCircleLine />
-                          </IconButton>
-                        )}
-                      </>
-                    )}
-                    {role.multiple && (
-                      <IconButton
-                        disabled={scenario.length == playersLength}
-                        onClick={() => {
-                          setScenario([
-                            ...scenario,
-                            { id: crypto.randomUUID(), name: role.name }
-                          ])
-                        }}
-                        color='primary'
-                      >
-                        <RiAddCircleLine />
-                      </IconButton>
-                    )}
-                  </Box>
+                  <Role
+                    key={role.id}
+                    role={role}
+                    roles={roles}
+                    setRoles={setRoles}
+                  />
                 )
               })}
             </FormGroup>
@@ -217,14 +242,15 @@ const ScenarioOptions = ({
   return (
     <>
       <ButtonGroup
-        size='medium'
+        size='large'
         variant='contained'
         sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           mt: '2rem',
-          padding: '1rem'
+          padding: '1rem',
+          boxShadow: 'none'
         }}
       >
         <Button
@@ -232,9 +258,10 @@ const ScenarioOptions = ({
           disabled={
             pageNumber === 1 ||
             names.length !== playersLength ||
-            playersLength < 5
+            playersLength < 5 ||
+            roles.length !== playersLength
           }
-          onClick={() => setStart(true)}
+          onClick={() => handleStart()}
         >
           شروع
         </Button>

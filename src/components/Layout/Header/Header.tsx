@@ -1,5 +1,7 @@
+import { Typography } from '@mui/material'
+
 const Header = () => {
-  return <div>Header</div>
+  return <Typography fontFamily='Restin'>هدر</Typography>
 }
 
 export default Header

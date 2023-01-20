@@ -1,17 +1,17 @@
 import { Container } from '@mui/material'
-import { Box, Button, ButtonGroup } from '@mui/material'
 import { useEffect, useState } from 'react'
-import GameScreen from '../components/GameScreen/GameScreen'
+import LastMovesList from '../components/LastMovesList/LastMovesList'
+import PlayersList from '../components/PlayersList/PlayersList'
 import ScenarioOptions from '../components/ScenarioOptions/ScenarioOptions'
-import { ScenarioRoles } from '../data/roles'
+import { mafiaRoles, ScenarioRoles } from '../data/roles'
 
 const HomePage = () => {
   const [scenario, setScenario] = useState<ScenarioRoles[]>([])
   const [playersLength, setPlayerLength] = useState(0)
   const [names, setNames] = useState<string[]>([])
+  const [roles, setRoles] = useState<ScenarioRoles[]>([])
+  const [isReady, setIsReady] = useState(false)
   const [start, setStart] = useState(false)
-
-  console.log(scenario)
 
   useEffect(() => {
     const localData = localStorage.getItem('names')
@@ -22,8 +22,19 @@ const HomePage = () => {
 
   return (
     <Container>
-      {start ? (
-        <GameScreen />
+      {isReady ? (
+        <>
+          {start ? (
+            <LastMovesList />
+          ) : (
+            <PlayersList
+              setStart={setStart}
+              roles={roles}
+              setIsReady={setIsReady}
+              names={names}
+            />
+          )}
+        </>
       ) : (
         <ScenarioOptions
           names={names}
@@ -32,7 +43,9 @@ const HomePage = () => {
           setPlayerLength={setPlayerLength}
           scenario={scenario}
           setScenario={setScenario}
-          setStart={setStart}
+          setIsReady={setIsReady}
+          roles={roles}
+          setRoles={setRoles}
         />
       )}
     </Container>
