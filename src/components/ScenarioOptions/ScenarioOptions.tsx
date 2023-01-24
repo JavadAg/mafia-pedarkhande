@@ -41,37 +41,52 @@ const ScenarioOptions = ({
 }) => {
   const [pageNumber, setPageNumber] = useState(1)
   const [name, setName] = useState('')
-  const [existList, setExistList] = useState([])
+  const [existList, setExistList] = useState<ScenarioRoles[]>([])
   const [scenarioName, setScenarioName] = useState('')
 
   const handleStart = () => {
-    if (scenario.length === mafiaRoles.length) {
+    if (scenarioName === 'مافیا') {
       localStorage.setItem('mafiaRoles', JSON.stringify(roles))
-    } else if (scenario.length === godfatherRoles.length) {
+    } else if (scenarioName === 'پدرخوانده') {
       localStorage.setItem('godfatherRoles', JSON.stringify(roles))
     } else {
       localStorage.setItem('mixedRoles', JSON.stringify(roles))
     }
     setIsReady(true)
   }
-  const handleCheckLocal = () => {
+  const handleCheckLocal = async () => {
     if (scenarioName === 'مافیا') {
       const localArray = localStorage.getItem('mafiaRoles')
       if (localArray) {
-        const parsedArray = JSON.parse(localArray)
-        console.log(scenario)
+        const parsedArray: ScenarioRoles[] = JSON.parse(localArray)
         const intersection = scenario.filter((element) =>
-          parsedArray.includes(element)
+          parsedArray.some((b) => b.name === element.name)
         )
-        console.log(intersection)
+        setExistList(intersection)
+        setRoles(intersection.length > 0 ? intersection : scenario)
       }
-    } else if (scenario.length === godfatherRoles.length) {
-      localStorage.setItem('godfatherRoles', JSON.stringify(roles))
+    } else if (scenarioName === 'پدرخوانده') {
+      const localArray = localStorage.getItem('godfatherRoles')
+      if (localArray) {
+        const parsedArray: ScenarioRoles[] = JSON.parse(localArray)
+        const intersection = scenario.filter((element) =>
+          parsedArray.some((b) => b.name === element.name)
+        )
+        setExistList(intersection)
+        setRoles(intersection.length > 0 ? intersection : scenario)
+      }
     } else {
-      localStorage.setItem('mixedRoles', JSON.stringify(roles))
+      const localArray = localStorage.getItem('mixedRoles')
+      if (localArray) {
+        const parsedArray: ScenarioRoles[] = JSON.parse(localArray)
+        const intersection = scenario.filter((element) =>
+          parsedArray.some((b) => b.name === element.name)
+        )
+        setExistList(intersection)
+        setRoles(intersection.length > 0 ? intersection : scenario)
+      }
     }
   }
-
   useEffect(() => {
     handleCheckLocal()
   }, [pageNumber])
@@ -97,7 +112,7 @@ const ScenarioOptions = ({
             <Button
               onClick={(e) => {
                 setScenario(mafiaRoles)
-                setRoles(mafiaRoles)
+
                 setPageNumber((current) => current + 1)
                 setScenarioName(e.currentTarget.innerText)
               }}
@@ -113,7 +128,7 @@ const ScenarioOptions = ({
             <Button
               onClick={(e) => {
                 setScenario(godfatherRoles)
-                setRoles(godfatherRoles)
+                setRoles(existList.length > 0 ? existList : godfatherRoles)
                 setPageNumber((current) => current + 1)
                 setScenarioName(e.currentTarget.innerText)
               }}
@@ -129,7 +144,7 @@ const ScenarioOptions = ({
             <Button
               onClick={(e) => {
                 setScenario(mixedRoles)
-                setRoles(mixedRoles)
+                setRoles(existList.length > 0 ? existList : mixedRoles)
                 setPageNumber((current) => current + 1)
                 setScenarioName(e.currentTarget.innerText)
               }}
@@ -225,6 +240,7 @@ const ScenarioOptions = ({
               {scenario.map((role) => {
                 return (
                   <Role
+                    existList={existList}
                     key={role.id}
                     role={role}
                     roles={roles}

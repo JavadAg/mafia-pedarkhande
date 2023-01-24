@@ -14,9 +14,9 @@ const HomePage = () => {
   const [start, setStart] = useState(false)
 
   useEffect(() => {
-    const localData = localStorage.getItem('names')
-    if (localData) {
-      setNames(JSON.parse(localData))
+    const storageName = localStorage.getItem('names')
+    if (storageName) {
+      setNames(JSON.parse(storageName))
     }
   }, [])
 

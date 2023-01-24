@@ -1,12 +1,12 @@
 import { Box, Button, IconButton, Snackbar } from '@mui/material'
-import { lastMoves } from '../../data/roles'
+import { LastMoves, lastMoves } from '../../data/roles'
 import CardInfo from './CardInfo'
-import { useState } from 'react'
-import { RiCloseLine, RiDeleteBack2Line } from 'react-icons/ri'
+import { useEffect, useState } from 'react'
+import { RiCloseLine } from 'react-icons/ri'
 
 const LastMovesList = () => {
   const [open, setOpen] = useState(false)
-  const [lastMovesCards, setLastMovesCards] = useState<any[]>(lastMoves)
+  const [lastMovesCards, setLastMovesCards] = useState<LastMoves[]>(lastMoves)
 
   const handleClick = () => {
     setOpen(true)
@@ -63,10 +63,12 @@ const LastMovesList = () => {
   }
 
   const handleRemoveCard = (cardId: string) => {
-    console.log(cardId)
     setLastMovesCards(lastMovesCards.filter((c) => c.id !== cardId))
-    /* shuffle() */
   }
+
+  useEffect(() => {
+    shuffle()
+  }, [])
 
   return (
     <Box

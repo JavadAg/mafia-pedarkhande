@@ -8,10 +8,13 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,jsx,tsx,ts,css,html,ico,png,svg}']
+      },
       devOptions: {
         enabled: true
       },
-      includeAssets: ['vite.svg'],
+      includeAssets: ['logo.svg'],
       manifest: {
         name: 'مافیا بیدار شه',
         short_name: 'مافیا',
@@ -19,12 +22,12 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: '/vite.svg',
+            src: '/logo.svg',
             sizes: '192x192',
             type: 'image/svg+xml'
           },
           {
-            src: '/vite.svg',
+            src: '/logo.svg',
             sizes: '512x512',
             type: 'image/svg+xml'
           }

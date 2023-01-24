@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import {
   Box,
   FormControlLabel,
@@ -14,15 +14,23 @@ import { arrayDupCount } from '../../utils/arrayDupCount'
 const Role = ({
   role,
   roles,
-  setRoles
+  setRoles,
+  existList
 }: {
   role: ScenarioRoles
   roles: ScenarioRoles[]
   setRoles: Dispatch<SetStateAction<ScenarioRoles[]>>
+  existList: ScenarioRoles[]
 }) => {
-  const [checked, setChecked] = useState<boolean>(true)
+  const [checked, setChecked] = useState<boolean>(false)
   let count: number = 0
   if (role.multiple) count = arrayDupCount(roles, role)
+
+  useEffect(() => {
+    if (existList.length > 0) {
+      setChecked(existList.some((e) => e === role))
+    }
+  }, [existList])
 
   return (
     <Box
@@ -37,7 +45,7 @@ const Role = ({
       <FormControlLabel
         control={
           <Checkbox
-            defaultChecked
+            checked={checked ? true : false}
             onChange={(e) => {
               if (e.target.checked) {
                 setChecked(true)
@@ -68,12 +76,16 @@ const Role = ({
           )}
         </>
       )}
-      {role.multiple && checked && (
+      {role.multiple === true && checked === true ? (
         <IconButton
           onClick={() => {
             setRoles([
               ...roles,
-              { id: crypto.randomUUID(), name: role.name, img: role.img }
+              {
+                id: crypto.randomUUID(),
+                name: role.name,
+                img: role.img
+              }
             ])
             count = count + 1
           }}
@@ -81,6 +93,8 @@ const Role = ({
         >
           <RiAddCircleLine />
         </IconButton>
+      ) : (
+        ''
       )}
     </Box>
   )

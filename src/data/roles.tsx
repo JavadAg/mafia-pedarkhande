@@ -50,88 +50,88 @@ export interface ScenarioRoles {
 
 export const mafiaRoles: ScenarioRoles[] = [
   {
-    id: crypto.randomUUID(),
+    id: '11',
     name: 'پدرخوانده(مافیا)',
     img: godfather2
   },
   {
-    id: crypto.randomUUID(),
+    id: '12',
     name: 'دکتر لکتر (مافیا)',
     img: dr_mafia
   },
   {
-    id: crypto.randomUUID(),
+    id: '13',
     name: 'ناتو',
     img: nato
   },
   {
-    id: crypto.randomUUID(),
+    id: '14',
     name: 'تروریست',
     img: terrorist
   },
   {
-    id: crypto.randomUUID(),
+    id: '15',
     name: 'دکتر شهر',
     img: dr
   },
   {
-    id: crypto.randomUUID(),
+    id: '16',
     name: 'کاراگاه',
     img: detective
   },
   {
-    id: crypto.randomUUID(),
+    id: '17',
     name: 'حرفه ای',
     img: hitman
   },
   {
-    id: crypto.randomUUID(),
+    id: '18',
     name: 'فراماسون',
     img: framason
   },
   {
-    id: crypto.randomUUID(),
+    id: '19',
     name: 'جان سخت',
     img: diehard
   },
   {
-    id: crypto.randomUUID(),
+    id: '20',
     name: 'تفنگدار',
     img: gunner
   },
   {
-    id: crypto.randomUUID(),
+    id: '21',
     name: 'اهنگر',
     img: blacksmith
   },
   {
-    id: crypto.randomUUID(),
+    id: '22',
     name: 'فدایی',
     img: fadai
   },
   {
-    id: crypto.randomUUID(),
+    id: '23',
     name: 'شهردار',
     img: mayor
   },
   {
-    id: crypto.randomUUID(),
+    id: '24',
     name: 'روانشناس',
     img: psychiatric
   },
   {
-    id: crypto.randomUUID(),
+    id: '25',
     name: 'ساقی',
     img: butler
   },
   {
-    id: crypto.randomUUID(),
+    id: '26',
     name: 'مافیا ساده',
     img: mafia_sade,
     multiple: true
   },
   {
-    id: crypto.randomUUID(),
+    id: '27',
     name: 'شهروند ساده',
     img: shahr_sade,
     multiple: true
@@ -140,53 +140,53 @@ export const mafiaRoles: ScenarioRoles[] = [
 
 export const godfatherRoles: ScenarioRoles[] = [
   {
-    id: crypto.randomUUID(),
+    id: '1',
     name: 'پدرخوانده (پدرخوانده)',
     img: godfather
   },
   {
-    id: crypto.randomUUID(),
+    id: '2',
     name: 'ماتادور',
     img: matador
   },
   {
-    id: crypto.randomUUID(),
+    id: '3',
     name: 'ساول گـودمن',
     img: goodman
   },
   {
-    id: crypto.randomUUID(),
+    id: '4',
     name: 'نوستراداموس',
     img: nostradamus
   },
   {
-    id: crypto.randomUUID(),
+    id: '5',
     name: 'دکتر واتسون',
     img: watson
   },
   {
-    id: crypto.randomUUID(),
+    id: '6',
     name: 'شهروند کین',
     img: kane
   },
   {
-    id: crypto.randomUUID(),
+    id: '7',
     name: 'کنستانتین',
     img: constantine
   },
   {
-    id: crypto.randomUUID(),
+    id: '8',
     name: 'لئون حرفه ای',
     img: leon
   },
   {
-    id: crypto.randomUUID(),
+    id: '9',
     name: 'مافیا ساده',
     img: mafia_sade,
     multiple: true
   },
   {
-    id: crypto.randomUUID(),
+    id: '10',
     name: 'شهروند ساده',
     img: shahr_sade,
     multiple: true
@@ -199,69 +199,76 @@ export const mixedRoles: ScenarioRoles[] = arrayUnion(
   'name'
 )
 
+export type LastMoves = {
+  id: string
+  name: string
+  number?: number
+  img: string
+}
+
 export const lastMoves = [
   {
-    id: crypto.randomUUID(),
+    id: '1',
     name: 'تغییر جهره',
     img: faceoff
   },
   {
-    id: crypto.randomUUID(),
+    id: '2',
     name: 'بخت و اقبال',
     img: fortune
   },
   {
-    id: crypto.randomUUID(),
+    id: '3',
     name: 'دستبند',
     img: handcuff
   },
   {
-    id: crypto.randomUUID(),
+    id: '4',
     name: 'شلیک نهایی',
     img: kill
   },
   {
-    id: crypto.randomUUID(),
+    id: '5',
     name: 'سکوت بره ها',
     img: lamb
   },
   {
-    id: crypto.randomUUID(),
+    id: '6',
     name: 'دروغ سیزده',
     img: lie
   },
   {
-    id: crypto.randomUUID(),
+    id: '7',
     name: 'ذهن زیبا',
     img: mind
   },
   {
-    id: crypto.randomUUID(),
+    id: '8',
     name: 'بی خوابی',
     img: nosleep
   },
   {
-    id: crypto.randomUUID(),
+    id: '9',
     name: 'تسخیر روح',
     img: posses
   },
   {
-    id: crypto.randomUUID(),
+    id: '10',
     name: 'افشای هویت',
     img: reveal
   },
   {
-    id: crypto.randomUUID(),
+    id: '11',
     name: 'شهر در امان',
     img: safe
   },
   {
-    id: crypto.randomUUID(),
+    id: '12',
     name: 'حذف یا حقیقت',
     img: truce
   },
   {
-    id: crypto.randomUUID(),
+    id: '13',
     name: 'افشای نقش',
     img: reveal2
   }

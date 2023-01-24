@@ -1,8 +1,15 @@
 import { Box, Button, IconButton, Snackbar } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RiCloseLine, RiDeleteBack2Line } from 'react-icons/ri'
 import { ScenarioRoles } from '../../data/roles'
 import PlayerInfo from './PlayerInfo'
+
+interface Player {
+  id: string
+  name: string
+  role: string
+  img: string
+}
 
 const PlayersList = ({
   roles,
@@ -15,14 +22,7 @@ const PlayersList = ({
   names: string[]
   setStart: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  const [players, setPlayers] = useState<
-    {
-      id: any
-      name: string
-      role: any
-      img: any
-    }[]
-  >([])
+  const [players, setPlayers] = useState<Player[]>([])
 
   const [open, setOpen] = useState(false)
   const [disable, setDisable] = useState(false)
@@ -58,7 +58,7 @@ const PlayersList = ({
   const shuffle = () => {
     setPlayers([])
     let players = []
-    let left = JSON.parse(JSON.stringify(roles))
+    let left: Player[] = JSON.parse(JSON.stringify(roles))
     for (let i of names) {
       if (left.length > 0) {
         let ran = Math.floor(Math.random() * left.length)
@@ -75,6 +75,10 @@ const PlayersList = ({
     setPlayers(players)
     handleClick()
   }
+
+  useEffect(() => {
+    if (roles.length > 0) shuffle()
+  }, [])
 
   return (
     <Box

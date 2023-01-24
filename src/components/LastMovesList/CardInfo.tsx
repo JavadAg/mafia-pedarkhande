@@ -8,16 +8,12 @@ import {
   Typography
 } from '@mui/material'
 import { useState } from 'react'
+import { LastMoves } from '../../data/roles'
 
 export interface SimpleDialogProps {
   open: boolean
   handleRemoveCard: (cardId: string) => void
-  card: {
-    id: string
-    name: string
-    number: number
-    img: string
-  }
+  card: LastMoves
   onClose: () => void
 }
 
@@ -81,12 +77,7 @@ const CardInfo = ({
   card,
   handleRemoveCard
 }: {
-  card: {
-    id: string
-    name: string
-    number: number
-    img: string
-  }
+  card: LastMoves
   handleRemoveCard: (cardId: string) => void
 }) => {
   const [open, setOpen] = useState(false)
