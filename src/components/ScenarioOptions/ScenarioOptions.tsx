@@ -8,7 +8,7 @@ import {
   IconButton,
   FormGroup
 } from '@mui/material'
-import { RiAddCircleLine } from 'react-icons/ri'
+import { RiAddCircleLine, RiDeleteBin2Line } from 'react-icons/ri'
 import {
   mixedRoles,
   godfatherRoles,
@@ -68,7 +68,7 @@ const ScenarioOptions = ({
           parsedArray.some((b) => b.name === element.name)
         )
         setExistList(intersection)
-        setRoles(intersection.length > 0 ? intersection : scenario)
+        setRoles(intersection.length > 0 ? intersection : [])
       }
     } else if (scenarioName === 'پدرخوانده') {
       const localArray = localStorage.getItem('godfatherRoles')
@@ -78,7 +78,7 @@ const ScenarioOptions = ({
           parsedArray.some((b) => b.name === element.name)
         )
         setExistList(intersection)
-        setRoles(intersection.length > 0 ? intersection : scenario)
+        setRoles(intersection.length > 0 ? intersection : [])
       }
     } else if (scenarioName === 'ترکیبی پررو') {
       const localArray = localStorage.getItem('mixedRoles')
@@ -88,13 +88,13 @@ const ScenarioOptions = ({
           parsedArray.some((b) => b.name === element.name)
         )
         setExistList(intersection)
-        setRoles(intersection.length > 0 ? intersection : scenario)
+        setRoles(intersection.length > 0 ? intersection : [])
       }
     }
   }
 
   useEffect(() => {
-    handleCheckLocal()
+    if (pageNumber === 2) handleCheckLocal()
   }, [pageNumber])
 
   const textFieldRef = useRef<any>()
@@ -173,7 +173,6 @@ const ScenarioOptions = ({
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            mt: '2rem',
             gap: '1rem',
             padding: '1rem'
           }}
@@ -264,41 +263,73 @@ const ScenarioOptions = ({
 
   return (
     <>
-      <ButtonGroup
-        size='large'
-        variant='contained'
+      <Box
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           mt: '2rem',
-          padding: '1rem',
-          boxShadow: 'none'
+          gap: '1rem',
+          boxShadow: 'none',
+          padding: '1rem'
         }}
       >
-        <Button
-          color='info'
-          disabled={
-            pageNumber === 1 ||
-            names.length !== playersLength ||
-            playersLength < 5 ||
-            roles.length !== playersLength
-          }
-          onClick={() => handleStart()}
-        >
-          شروع
-        </Button>
-        <Button
-          color='secondary'
-          disabled={pageNumber === 1}
-          onClick={() => {
-            setPageNumber((current) => current - 1)
-            setRoles([])
+        <ButtonGroup
+          size='large'
+          variant='contained'
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            boxShadow: 'none'
           }}
         >
-          صفحه قبل
-        </Button>
-      </ButtonGroup>
+          <Button
+            color='info'
+            disabled={
+              pageNumber === 1 ||
+              names.length !== playersLength ||
+              playersLength < 5 ||
+              roles.length !== playersLength
+            }
+            onClick={() => handleStart()}
+          >
+            شروع
+          </Button>
+          <Button
+            color='secondary'
+            disabled={pageNumber === 1}
+            onClick={() => {
+              setPageNumber((current) => current - 1)
+              setRoles([])
+            }}
+          >
+            صفحه قبل
+          </Button>
+        </ButtonGroup>
+        {pageNumber === 2 && (
+          <Button
+            color='error'
+            variant='contained'
+            onClick={() => {
+              setNames([])
+              setRoles([])
+              scenarioName === 'مافیا'
+                ? localStorage.setItem('mafiaRoles', JSON.stringify([]))
+                : scenarioName === 'پدرخوانده'
+                ? localStorage.setItem('godfatherRoles', JSON.stringify([]))
+                : scenarioName === 'ترکیبی پررو'
+                ? localStorage.setItem('mixedRoles', JSON.stringify([]))
+                : ''
+              localStorage.removeItem('names')
+              handleCheckLocal()
+            }}
+          >
+            <RiDeleteBin2Line /> پاک کردن همه
+          </Button>
+        )}
+      </Box>
       {page()}
     </>
   )

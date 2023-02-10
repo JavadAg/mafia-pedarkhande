@@ -29,6 +29,8 @@ const Role = ({
   useEffect(() => {
     if (existList.length > 0) {
       setChecked(existList.some((e) => e === role))
+    } else {
+      setChecked(false)
     }
   }, [existList])
 
