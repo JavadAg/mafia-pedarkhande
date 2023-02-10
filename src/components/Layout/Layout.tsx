@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container'
-import Header from './Header/Header'
 import bg1 from '../../assets/image/bg1.jpg'
+import { Typography } from '@mui/material'
 
 const Layout = ({ children }: { children: JSX.Element }) => {
   return (
@@ -25,6 +25,15 @@ const Layout = ({ children }: { children: JSX.Element }) => {
         backgroundBlendMode: 'multiply'
       }}
     >
+      <Typography
+        position='absolute'
+        top='0.3rem'
+        sx={{ opacity: 0.5 }}
+        left='0.4rem'
+        fontSize='0.7rem'
+      >
+        1.0.2
+      </Typography>
       {children}
     </Container>
   )

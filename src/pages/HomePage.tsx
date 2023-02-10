@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import LastMovesList from '../components/LastMovesList/LastMovesList'
 import PlayersList from '../components/PlayersList/PlayersList'
 import ScenarioOptions from '../components/ScenarioOptions/ScenarioOptions'
-import { mafiaRoles, ScenarioRoles } from '../data/roles'
+import { ScenarioRoles } from '../data/roles'
 
 const HomePage = () => {
   const [scenario, setScenario] = useState<ScenarioRoles[]>([])

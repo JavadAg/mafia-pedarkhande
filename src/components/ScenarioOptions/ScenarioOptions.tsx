@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState, useEffect } from 'react'
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from 'react'
 import {
   Box,
   Button,
@@ -97,6 +97,8 @@ const ScenarioOptions = ({
     handleCheckLocal()
   }, [pageNumber])
 
+  const textFieldRef = useRef<any>()
+
   const page = () => {
     if (pageNumber === 1) {
       return (
@@ -192,6 +194,7 @@ const ScenarioOptions = ({
             onChange={(e) => setName(e.target.value)}
             id='outlined-basic'
             value={name}
+            inputRef={textFieldRef}
             label='نام'
             placeholder='نام بازیکن'
             variant='outlined'
@@ -202,6 +205,7 @@ const ScenarioOptions = ({
               setNames([...names, name])
               localStorage.setItem('names', JSON.stringify([...names, name]))
               setName('')
+              textFieldRef.current.focus()
             }}
             color='primary'
           >
@@ -288,7 +292,8 @@ const ScenarioOptions = ({
           color='secondary'
           disabled={pageNumber === 1}
           onClick={() => {
-            setPageNumber((current) => current - 1), setRoles([])
+            setPageNumber((current) => current - 1)
+            setRoles([])
           }}
         >
           صفحه قبل
