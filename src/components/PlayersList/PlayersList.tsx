@@ -12,18 +12,19 @@ interface Player {
 }
 
 const PlayersList = ({
+  clearAll,
   roles,
   names,
   setStart,
   setIsReady
 }: {
+  clearAll: () => void
   roles: ScenarioRoles[]
   setIsReady: React.Dispatch<React.SetStateAction<boolean>>
   names: string[]
   setStart: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [players, setPlayers] = useState<Player[]>([])
-
   const [open, setOpen] = useState(false)
   const [disable, setDisable] = useState(false)
 
@@ -122,11 +123,11 @@ const PlayersList = ({
           variant='contained'
           size='medium'
           disabled={disable}
-          color='secondary'
+          color='warning'
           sx={{ fontSize: '1rem' }}
-          onClick={() => setIsReady(false)}
+          onClick={() => clearAll()}
         >
-          صفحه قبل
+          صفحه اول
         </Button>
         <IconButton
           size='medium'

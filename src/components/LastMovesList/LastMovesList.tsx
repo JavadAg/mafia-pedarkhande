@@ -4,7 +4,7 @@ import CardInfo from './CardInfo'
 import { useEffect, useState } from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 
-const LastMovesList = () => {
+const LastMovesList = ({ clearAll }: { clearAll: () => void }) => {
   const [open, setOpen] = useState(false)
   const [lastMovesCards, setLastMovesCards] = useState<LastMoves[]>(lastMoves)
 
@@ -90,12 +90,21 @@ const LastMovesList = () => {
       >
         <Button
           variant='contained'
-          size='large'
+          size='medium'
           color='secondary'
-          sx={{ fontSize: '1.5rem' }}
+          sx={{ fontSize: '1rem' }}
           onClick={() => shuffle()}
         >
           بر بزن
+        </Button>
+        <Button
+          variant='contained'
+          size='medium'
+          color='warning'
+          sx={{ fontSize: '1rem' }}
+          onClick={() => clearAll()}
+        >
+          شروع دوباره
         </Button>
       </Box>
 

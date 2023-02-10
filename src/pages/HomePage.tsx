@@ -13,6 +13,23 @@ const HomePage = () => {
   const [isReady, setIsReady] = useState(false)
   const [start, setStart] = useState(false)
 
+  console.log(
+    { scenario },
+    { playersLength },
+    { names },
+    { roles },
+    { isReady },
+    { start }
+  )
+
+  function clearAll() {
+    setRoles([])
+    setPlayerLength(0)
+    setScenario([])
+    setIsReady(false)
+    setStart(false)
+  }
+
   useEffect(() => {
     const storageName = localStorage.getItem('names')
     if (storageName) {
@@ -25,9 +42,10 @@ const HomePage = () => {
       {isReady ? (
         <>
           {start ? (
-            <LastMovesList />
+            <LastMovesList clearAll={clearAll} />
           ) : (
             <PlayersList
+              clearAll={clearAll}
               setStart={setStart}
               roles={roles}
               setIsReady={setIsReady}
@@ -37,6 +55,7 @@ const HomePage = () => {
         </>
       ) : (
         <ScenarioOptions
+          clearAll={clearAll}
           names={names}
           setNames={setNames}
           playersLength={playersLength}

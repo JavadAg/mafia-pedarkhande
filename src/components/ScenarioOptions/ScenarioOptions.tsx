@@ -18,7 +18,10 @@ import {
 import _ from 'lodash'
 import Role from './Role'
 
+export type ScenarioName = 'مافیا' | 'پدرخوانده' | 'ترکیبی پررو' | ''
+
 const ScenarioOptions = ({
+  clearAll,
   scenario,
   setScenario,
   names,
@@ -29,6 +32,7 @@ const ScenarioOptions = ({
   roles,
   setRoles
 }: {
+  clearAll: () => void
   scenario: ScenarioRoles[]
   setScenario: Dispatch<SetStateAction<ScenarioRoles[]>>
   names: string[]
@@ -42,18 +46,19 @@ const ScenarioOptions = ({
   const [pageNumber, setPageNumber] = useState(1)
   const [name, setName] = useState('')
   const [existList, setExistList] = useState<ScenarioRoles[]>([])
-  const [scenarioName, setScenarioName] = useState('')
+  const [scenarioName, setScenarioName] = useState<ScenarioName>('')
 
   const handleStart = () => {
     if (scenarioName === 'مافیا') {
       localStorage.setItem('mafiaRoles', JSON.stringify(roles))
     } else if (scenarioName === 'پدرخوانده') {
       localStorage.setItem('godfatherRoles', JSON.stringify(roles))
-    } else {
+    } else if (scenarioName === 'ترکیبی پررو') {
       localStorage.setItem('mixedRoles', JSON.stringify(roles))
     }
     setIsReady(true)
   }
+
   const handleCheckLocal = async () => {
     if (scenarioName === 'مافیا') {
       const localArray = localStorage.getItem('mafiaRoles')
@@ -75,7 +80,7 @@ const ScenarioOptions = ({
         setExistList(intersection)
         setRoles(intersection.length > 0 ? intersection : scenario)
       }
-    } else {
+    } else if (scenarioName === 'ترکیبی پررو') {
       const localArray = localStorage.getItem('mixedRoles')
       if (localArray) {
         const parsedArray: ScenarioRoles[] = JSON.parse(localArray)
@@ -87,6 +92,7 @@ const ScenarioOptions = ({
       }
     }
   }
+
   useEffect(() => {
     handleCheckLocal()
   }, [pageNumber])
@@ -112,9 +118,8 @@ const ScenarioOptions = ({
             <Button
               onClick={(e) => {
                 setScenario(mafiaRoles)
-
                 setPageNumber((current) => current + 1)
-                setScenarioName(e.currentTarget.innerText)
+                setScenarioName(e.currentTarget.innerText as ScenarioName)
               }}
               sx={{
                 width: '10rem',
@@ -128,9 +133,8 @@ const ScenarioOptions = ({
             <Button
               onClick={(e) => {
                 setScenario(godfatherRoles)
-                setRoles(existList.length > 0 ? existList : godfatherRoles)
                 setPageNumber((current) => current + 1)
-                setScenarioName(e.currentTarget.innerText)
+                setScenarioName(e.currentTarget.innerText as ScenarioName)
               }}
               sx={{
                 width: '10rem',
@@ -144,9 +148,8 @@ const ScenarioOptions = ({
             <Button
               onClick={(e) => {
                 setScenario(mixedRoles)
-                setRoles(existList.length > 0 ? existList : mixedRoles)
                 setPageNumber((current) => current + 1)
-                setScenarioName(e.currentTarget.innerText)
+                setScenarioName(e.currentTarget.innerText as ScenarioName)
               }}
               sx={{
                 width: '10rem',
@@ -284,7 +287,9 @@ const ScenarioOptions = ({
         <Button
           color='secondary'
           disabled={pageNumber === 1}
-          onClick={() => setPageNumber((current) => current - 1)}
+          onClick={() => {
+            setPageNumber((current) => current - 1), setRoles([])
+          }}
         >
           صفحه قبل
         </Button>
