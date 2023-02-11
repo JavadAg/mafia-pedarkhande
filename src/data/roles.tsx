@@ -38,6 +38,15 @@ import reveal from '../assets/image/last_move/reveal.png'
 import reveal2 from '../assets/image/last_move/reveal2.png'
 import safe from '../assets/image/last_move/safe.png'
 import truce from '../assets/image/last_move/truce.png'
+import face from '../assets/image/mafia/faceswap.jpg'
+import efion from '../assets/image/mafia/efion.jpg'
+import enchantress from '../assets/image/mafia/enchant.jpg'
+import guardian from '../assets/image/mafia/guardian.jpg'
+import hacker from '../assets/image/mafia/hacker.jpg'
+import hostagetaker from '../assets/image/mafia/hostage.jpg'
+import killer from '../assets/image/mafia/killer.jpg'
+import saba from '../assets/image/mafia/saba.jpg'
+import shabkhosb from '../assets/image/mafia/shabkhosb.jpg'
 
 export interface ScenarioRoles {
   id: string
@@ -135,6 +144,51 @@ export const mafiaRoles: ScenarioRoles[] = [
     name: 'شهروند ساده',
     img: shahr_sade,
     multiple: true
+  },
+  {
+    id: '28',
+    name: 'شب خسب مافیا',
+    img: shabkhosb
+  },
+  {
+    id: '29',
+    name: 'فرشته نجات شهروند',
+    img: guardian
+  },
+  {
+    id: '30',
+    name: 'افسونگر مافیا',
+    img: enchantress
+  },
+  {
+    id: '31',
+    name: 'صبا شهروند',
+    img: saba
+  },
+  {
+    id: '32',
+    name: 'هکر شهروند',
+    img: hacker
+  },
+  {
+    id: '33',
+    name: 'افیون شهروند',
+    img: efion
+  },
+  {
+    id: '34',
+    name: 'گروگانگیر',
+    img: hostagetaker
+  },
+  {
+    id: '35',
+    name: 'کیلر مستقل',
+    img: killer
+  },
+  {
+    id: '36',
+    name: 'هزارچهره مستقل',
+    img: face
   }
 ]
 
